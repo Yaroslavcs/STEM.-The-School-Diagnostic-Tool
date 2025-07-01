@@ -1,0 +1,15 @@
+﻿using Data;
+using System.Threading.Tasks;
+namespace Repositories {
+    public class UnitOfWork : IUnitOfWork {
+        private readonly ApplicationDbContext _context;
+        public IUserRepository Users { get; }
+        public IRecommendationRepository Recommendations { get; }
+        public UnitOfWork(ApplicationDbContext context) {
+            _context = context;
+            Users = new UserRepository(_context);
+            Recommendations = new RecommendationRepository(_context);
+        }
+        public async Task<int> CompleteAsync() => await _context.SaveChangesAsync();
+    }
+}
