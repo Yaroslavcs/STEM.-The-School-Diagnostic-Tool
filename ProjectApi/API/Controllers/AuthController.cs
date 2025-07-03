@@ -11,12 +11,12 @@ namespace ProjectApi.API.Controllers {
         [HttpPost("register")]
         public async Task<IActionResult> Register(RegisterDto dto) {
             var token = await _authService.RegisterAsync(dto);
-            return Ok(token);
+            return Ok(new { token });
         }
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginDto dto) {
             var token = await _authService.LoginAsync(dto);
-            return Ok(token);
+            return Ok(new { token });
         }
     }
 }

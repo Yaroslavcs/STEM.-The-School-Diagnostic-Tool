@@ -6,7 +6,7 @@ namespace ProjectApi.Bussines_Logic.Services
     public interface IAccountService
     {
         Task<bool> ChangePasswordAsync(ChangePasswordDto dto);
-        Task<string> GenerateResetTokenAsync(string email);
+        Task<string?> GenerateResetTokenAsync(string email);
         Task<bool> ResetPasswordAsync(ResetPasswordDto dto);
     }
 } 

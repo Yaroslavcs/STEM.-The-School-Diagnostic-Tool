@@ -6,6 +6,8 @@ namespace ProjectApi.Database.Repositories
     {
         IUserRepository Users { get; }
         IRecommendationRepository Recommendations { get; }
+        ISchoolRepository Schools { get; }
+        IRepository<ProjectApi.Database.Models.Role> Roles { get; }
         Task<int> CompleteAsync();
     }
 } 

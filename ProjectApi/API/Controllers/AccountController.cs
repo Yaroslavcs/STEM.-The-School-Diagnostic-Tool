@@ -24,12 +24,12 @@ namespace ProjectApi.API.Controllers
         }
 
         [HttpPost("request-reset")]
-        public async Task<IActionResult> RequestReset(ResetPasswordRequestDto dto)
+        public async Task<IActionResult> RequestReset([FromBody] ResetPasswordRequestDto dto)
         {
+            if (string.IsNullOrEmpty(dto.Email)) return BadRequest("Email is required");
             var token = await _service.GenerateResetTokenAsync(dto.Email);
-            if (token == null) return NotFound("Користувача з такою поштою не знайдено.");
-            // Тут можна надіслати токен на email (реалізуйте через SMTP)
-            return Ok(new { ResetToken = token });
+            if (token == null) return NotFound();
+            return Ok(token);
         }
 
         [HttpPost("reset-password")]

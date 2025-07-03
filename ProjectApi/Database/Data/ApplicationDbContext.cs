@@ -30,6 +30,17 @@ namespace ProjectApi.Database.Data {
                 new Subject { Id = 3, Name = "Engineering" },
                 new Subject { Id = 4, Name = "Mathematics" }
             );
+            modelBuilder.Entity<Recommendation>()
+                .HasOne(r => r.Student)
+                .WithMany()
+                .HasForeignKey(r => r.StudentId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Recommendation>()
+                .HasOne(r => r.Teacher)
+                .WithMany()
+                .HasForeignKey(r => r.TeacherId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

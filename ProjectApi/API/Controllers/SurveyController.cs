@@ -46,10 +46,15 @@ namespace ProjectApi.API.Controllers
         [HttpGet("class-average/{schoolId}/{grade}")]
         public async Task<IActionResult> GetClassAverage(int schoolId, int grade)
         {
+            var school = await _context.Schools.FindAsync(schoolId);
+            if (school == null) return NotFound();
+
             var students = await _context.Users
-                .Where(u => u.SchoolId == schoolId && u.Role.Name == "Student" && u.Grade == grade)
+                .Where(u => u.SchoolId == schoolId && u.Role != null && u.Role.Name == "Student" && u.Grade == grade)
                 .Select(u => u.Id)
                 .ToListAsync();
+
+            if (students == null || students.Count == 0) return NotFound();
 
             var responses = await _context.Responses
                 .Where(r => students.Contains(r.StudentID))
@@ -57,7 +62,8 @@ namespace ProjectApi.API.Controllers
                 .ToListAsync();
 
             var result = responses
-                .GroupBy(r => r.Question.STEMLetter)
+                .Where(r => r.Question != null && r.Question.STEMLetter != null)
+                .GroupBy(r => r.Question!.STEMLetter!)
                 .Select(g => new
                 {
                     STEMLetter = g.Key,
@@ -73,7 +79,7 @@ namespace ProjectApi.API.Controllers
         public async Task<IActionResult> GetSchoolResponses(int schoolId)
         {
             var students = await _context.Users
-                .Where(u => u.SchoolId == schoolId && u.Role.Name == "Student")
+                .Where(u => u.SchoolId == schoolId && u.Role != null && u.Role.Name == "Student")
                 .Select(u => u.Id)
                 .ToListAsync();
 
@@ -90,7 +96,9 @@ namespace ProjectApi.API.Controllers
         [HttpGet("my-responses")]
         public async Task<IActionResult> GetMyResponses()
         {
-            var userId = int.Parse(User.FindFirst("nameidentifier").Value);
+            var nameIdClaim = User.FindFirst("nameidentifier");
+            if (nameIdClaim == null) return Unauthorized();
+            var userId = int.Parse(nameIdClaim.Value);
             var responses = await _context.Responses
                 .Where(r => r.StudentID == userId)
                 .Include(r => r.Question)
@@ -103,14 +111,17 @@ namespace ProjectApi.API.Controllers
         [HttpGet("my-average")]
         public async Task<IActionResult> GetMyAverage()
         {
-            var userId = int.Parse(User.FindFirst("nameidentifier").Value);
+            var nameIdClaim = User.FindFirst("nameidentifier");
+            if (nameIdClaim == null) return Unauthorized();
+            var userId = int.Parse(nameIdClaim.Value);
             var responses = await _context.Responses
                 .Where(r => r.StudentID == userId)
                 .Include(r => r.Question)
                 .ToListAsync();
 
             var result = responses
-                .GroupBy(r => r.Question.STEMLetter)
+                .Where(r => r.Question != null && r.Question.STEMLetter != null)
+                .GroupBy(r => r.Question!.STEMLetter!)
                 .Select(g => new
                 {
                     STEMLetter = g.Key,

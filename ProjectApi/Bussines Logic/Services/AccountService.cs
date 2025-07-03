@@ -30,8 +30,9 @@ namespace ProjectApi.Bussines_Logic.Services
             return true;
         }
 
-        public async Task<string> GenerateResetTokenAsync(string email)
+        public async Task<string?> GenerateResetTokenAsync(string email)
         {
+            if (string.IsNullOrEmpty(email)) throw new ArgumentNullException(nameof(email));
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
             if (user == null) return null;
 
@@ -53,8 +54,9 @@ namespace ProjectApi.Bussines_Logic.Services
             return true;
         }
 
-        private string HashPassword(string password)
+        private string HashPassword(string? password)
         {
+            if (password == null) throw new ArgumentNullException(nameof(password));
             using var sha256 = SHA256.Create();
             return string.Join("", sha256.ComputeHash(Encoding.UTF8.GetBytes(password)).Select(b => b.ToString("x2")));
         }

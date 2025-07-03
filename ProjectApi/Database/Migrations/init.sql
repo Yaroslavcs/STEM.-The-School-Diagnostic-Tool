@@ -10,14 +10,17 @@ CREATE TABLE Roles (
     Name NVARCHAR(50) NOT NULL
 );
 
--- Таблиця користувачів
 CREATE TABLE Users (
     Id INT PRIMARY KEY IDENTITY,
     Name NVARCHAR(100),
     Email NVARCHAR(100) UNIQUE,
     PasswordHash NVARCHAR(200),
     RoleId INT FOREIGN KEY REFERENCES Roles(Id),
-    SchoolId INT FOREIGN KEY REFERENCES Schools(Id)
+    SchoolId INT FOREIGN KEY REFERENCES Schools(Id),
+    FullName NVARCHAR(100),
+    Grade INT,
+    ResetToken NVARCHAR(200),
+    Username NVARCHAR(100)
 );
 
 -- Таблиця завучів
@@ -59,15 +62,7 @@ CREATE TABLE StudentGrades (
     Grade FLOAT CHECK (Grade >= 0 AND Grade <= 12)
 );
 
--- Заповнення ролей
-INSERT INTO Roles (Name) VALUES ('Student'), ('Teacher'), ('Deputy'), ('Director'), ('Admin');
-
--- Заповнення предметів
-INSERT INTO Subjects (Name) VALUES ('Science'), ('Technology'), ('Engineering'), ('Mathematics');
-
--- Отримання середнього балу
--- SELECT AVG(Grade) as AverageGrade FROM StudentGrades WHERE StudentId = @StudentId
-
+-- Таблиця відповідей
 CREATE TABLE Responses (
     ResponseID INT PRIMARY KEY IDENTITY,
     StudentID INT NOT NULL,
@@ -77,7 +72,17 @@ CREATE TABLE Responses (
     CONSTRAINT FK_Responses_Question FOREIGN KEY (QuestionID) REFERENCES Questions(Id)
 );
 
+-- Таблиця питань
 CREATE TABLE Questions (
     Id INT PRIMARY KEY IDENTITY,
     Text NVARCHAR(500) NOT NULL
 );
+
+-- Заповнення ролей
+INSERT INTO Roles (Name) VALUES ('Student'), ('Teacher'), ('Deputy'), ('Director'), ('Admin');
+
+-- Заповнення предметів
+INSERT INTO Subjects (Name) VALUES ('Science'), ('Technology'), ('Engineering'), ('Mathematics');
+
+-- Отримання середнього балу
+-- SELECT AVG(Grade) as AverageGrade FROM StudentGrades WHERE StudentId = @StudentId

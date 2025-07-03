@@ -59,11 +59,13 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IRecommendationRepository, RecommendationRepository>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<ISchoolRepository, SchoolRepository>();
 
 // Реєстрація сервісів
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IRecommendationService, RecommendationService>();
 builder.Services.AddScoped<IAccountService, AccountService>();
+builder.Services.AddScoped<ISchoolService, SchoolService>();
 
 builder.Services.AddAuthentication(options =>
 {
@@ -75,7 +77,7 @@ builder.Services.AddAuthentication(options =>
     options.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(builder.Configuration["Jwt:Key"])),
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(builder.Configuration["Jwt:Key"] ?? "")),
         ValidateIssuer = false,
         ValidateAudience = false
     };
