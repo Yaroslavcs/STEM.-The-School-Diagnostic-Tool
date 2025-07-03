@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProjectApi.Database.Data;
 using ProjectApi.Database.Models;
+using ProjectApi.API.DTOs;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -42,6 +43,35 @@ namespace ProjectApi.API.Controllers
                 .Where(g => g.StudentId == studentId)
                 .AverageAsync(g => g.Grade);
             return Ok(new { studentId, average = avg });
+        }
+
+        /// <summary>
+        /// Надіслати STEM-опитування (оцінювання)
+        /// </summary>
+        /// <param name="model">Дані для STEM-опитування (email, password, subject, science, math, engineering, technology)</param>
+        [HttpPost("survey")]
+        public async Task<IActionResult> SubmitSurvey([FromBody] StudentGradeSurveyDto model)
+        {
+            // Валідація
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            await Task.CompletedTask;
+            // TODO: Перевірка email+password, пошук студента, предмету, збереження оцінок
+            return Ok(new { message = "Відповіді збережено" });
+        }
+
+        /// <summary>
+        /// Надіслати повну STEM-анкету (як на фото)
+        /// </summary>
+        /// <param name="model">Дані для повної анкети (ПІБ, клас, навчальний заклад, стать, всі шкали)</param>
+        [HttpPost("survey-full")]
+        public async Task<IActionResult> SubmitFullSurvey([FromBody] StudentSurveyFullDto model)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            await Task.CompletedTask;
+            // TODO: Зберегти анкету в БД
+            return Ok(new { message = "Анкету збережено" });
         }
     }
 } 

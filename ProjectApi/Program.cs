@@ -50,6 +50,11 @@ builder.Services.AddSwaggerGen(c =>
             new List<string>()
         }
     });
+
+    // Додаю XML-документацію
+    var xmlFile = $"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    c.IncludeXmlComments(xmlPath);
 });
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>

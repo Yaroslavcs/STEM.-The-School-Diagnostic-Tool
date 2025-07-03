@@ -170,3 +170,5 @@ C:\Університет\project\ProjectApi\obj\Debug\net9.0\refint\ProjectApi.
 C:\Університет\project\ProjectApi\obj\Debug\net9.0\ProjectApi.pdb
 C:\Університет\project\ProjectApi\obj\Debug\net9.0\ProjectApi.genruntimeconfig.cache
 C:\Університет\project\ProjectApi\obj\Debug\net9.0\ref\ProjectApi.dll
+C:\Університет\project\ProjectApi\bin\Debug\net9.0\ProjectApi.xml
+C:\Університет\project\ProjectApi\obj\Debug\net9.0\ProjectApi.xml

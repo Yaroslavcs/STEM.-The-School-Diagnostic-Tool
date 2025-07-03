@@ -1,0 +1,129 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ProjectApi</name>
+    </assembly>
+    <members>
+        <member name="M:ProjectApi.API.Controllers.AccountController.ChangePassword(System.Int32,System.String,System.String)">
+            <summary>
+            Зміна пароля користувача
+            </summary>
+            <param name="userId">ID користувача</param>
+            <param name="oldPassword">Старий пароль</param>
+            <param name="newPassword">Новий пароль</param>
+        </member>
+        <member name="M:ProjectApi.API.Controllers.AccountController.RequestReset(System.String)">
+            <summary>
+            Запит на скидання пароля (відправка токена на email)
+            </summary>
+            <param name="email">Email користувача</param>
+        </member>
+        <member name="M:ProjectApi.API.Controllers.AccountController.ResetPassword(System.String,System.String,System.String)">
+            <summary>
+            Скидання пароля за токеном
+            </summary>
+            <param name="email">Email користувача</param>
+            <param name="newPassword">Новий пароль</param>
+            <param name="resetToken">Токен для скидання</param>
+        </member>
+        <member name="M:ProjectApi.API.Controllers.AuthController.Register(System.String,System.String,System.String,System.String,System.Int32)">
+            <summary>
+            Реєстрація користувача
+            </summary>
+            <param name="name">Ім'я користувача</param>
+            <param name="email">Введіть коректний email (має містити @)</param>
+            <param name="password">Пароль (мінімум 16 символів)</param>
+            <param name="role">Роль (Admin, Director, Teacher, Student)</param>
+            <param name="schoolId">Id школи</param>
+        </member>
+        <member name="M:ProjectApi.API.Controllers.AuthController.Login(System.String,System.String)">
+            <summary>
+            Вхід користувача
+            </summary>
+            <param name="email">Email користувача</param>
+            <param name="password">Пароль користувача</param>
+        </member>
+        <member name="M:ProjectApi.API.Controllers.SchoolsController.Create(System.String,System.String)">
+            <summary>
+            Додає нову школу (авторизація через токен у полі)
+            </summary>
+            <param name="token">JWT токен користувача (Admin/Director)</param>
+            <param name="name">Назва школи</param>
+        </member>
+        <member name="M:ProjectApi.API.Controllers.SchoolsController.GetSchoolList">
+            <summary>
+            Отримати список шкіл для вибору у формі анкети
+            </summary>
+        </member>
+        <member name="M:ProjectApi.API.Controllers.StudentGradesController.SubmitSurvey(ProjectApi.API.DTOs.StudentGradeSurveyDto)">
+            <summary>
+            Надіслати STEM-опитування (оцінювання)
+            </summary>
+            <param name="model">Дані для STEM-опитування (email, password, subject, science, math, engineering, technology)</param>
+        </member>
+        <member name="M:ProjectApi.API.Controllers.StudentGradesController.SubmitFullSurvey(ProjectApi.API.DTOs.StudentSurveyFullDto)">
+            <summary>
+            Надіслати повну STEM-анкету (як на фото)
+            </summary>
+            <param name="model">Дані для повної анкети (ПІБ, клас, навчальний заклад, стать, всі шкали)</param>
+        </member>
+        <member name="T:ProjectApi.API.DTOs.StudentGradeSurveyDto">
+            <summary>
+            DTO для STEM-опитування студента
+            </summary>
+        </member>
+        <member name="P:ProjectApi.API.DTOs.StudentGradeSurveyDto.Email">
+            <summary>Email студента</summary>
+        </member>
+        <member name="P:ProjectApi.API.DTOs.StudentGradeSurveyDto.Password">
+            <summary>Пароль студента</summary>
+        </member>
+        <member name="P:ProjectApi.API.DTOs.StudentGradeSurveyDto.Subject">
+            <summary>Назва предмету</summary>
+        </member>
+        <member name="P:ProjectApi.API.DTOs.StudentGradeSurveyDto.Science">
+            <summary>Для мене НАУКА — це (1-6)</summary>
+        </member>
+        <member name="P:ProjectApi.API.DTOs.StudentGradeSurveyDto.Math">
+            <summary>Для мене МАТЕМАТИКА — це (1-6)</summary>
+        </member>
+        <member name="P:ProjectApi.API.DTOs.StudentGradeSurveyDto.Engineering">
+            <summary>Для мене ІНЖЕНЕРІЯ — це (1-6)</summary>
+        </member>
+        <member name="P:ProjectApi.API.DTOs.StudentGradeSurveyDto.Technology">
+            <summary>Для мене ТЕХНОЛОГІЇ — це (1-6)</summary>
+        </member>
+        <member name="T:ProjectApi.API.DTOs.StudentSurveyFullDto">
+            <summary>
+            Повна анкета STEM-опитування (як на фото)
+            </summary>
+        </member>
+        <member name="P:ProjectApi.API.DTOs.StudentSurveyFullDto.FullName">
+            <summary>ПІБ (обов'язково)</summary>
+        </member>
+        <member name="P:ProjectApi.API.DTOs.StudentSurveyFullDto.Class">
+            <summary>Клас (обов'язково, max 32 символи)</summary>
+        </member>
+        <member name="P:ProjectApi.API.DTOs.StudentSurveyFullDto.SchoolId">
+            <summary>Навчальний заклад (Id школи з БД, обов'язково)</summary>
+        </member>
+        <member name="P:ProjectApi.API.DTOs.StudentSurveyFullDto.Gender">
+            <summary>Стать (опціонально: чоловіча/жіноча)</summary>
+        </member>
+        <member name="P:ProjectApi.API.DTOs.StudentSurveyFullDto.Math_Boring_Interesting">
+            <summary>Математика: нудна (1) — цікава (7)</summary>
+        </member>
+        <member name="P:ProjectApi.API.DTOs.StudentSurveyFullDto.Math_Unattractive_Attractive">
+            <summary>Математика: неприваблива (1) — приваблива (7)</summary>
+        </member>
+        <member name="P:ProjectApi.API.DTOs.StudentSurveyFullDto.Math_Everyday_Amazing">
+            <summary>Математика: повсякденна (1) — дивовижна (7)</summary>
+        </member>
+        <member name="P:ProjectApi.API.DTOs.StudentSurveyFullDto.Math_Unexciting_Exciting">
+            <summary>Математика: незахоплюча (1) — захоплюча (7)</summary>
+        </member>
+        <member name="P:ProjectApi.API.DTOs.StudentSurveyFullDto.Math_Meaningless_Meaningful">
+            <summary>Математика: нічого не означає (1) — багато значить (7)</summary>
+        </member>
+    </members>
+</doc>
